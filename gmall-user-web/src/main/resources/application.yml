@@ -1,18 +1,16 @@
 server:
   port: 8080
-#  dubbo\u4E2D\u7684\u670D\u52A1\u540D\u79F0
 spring:
   dubbo:
     application: user-web
     registry:
-#      zookeeper\u6CE8\u518C\u4E2D\u5FC3\u5730\u5740
+#      zookeeper注册中心的地址
       address: 192.168.243.130:2181
-#     zookeeper\u6CE8\u518C\u4E2D\u5FC3\u7684\u5730\u5740
+#     zookeeper的通讯协议的名称
       protocol: zookeeper
-#       dubbo\u7684\u901A\u8BAF\u534F\u8BAE\u7684\u540D\u79F0
     protocol:
       name: dubbo
-#       dubbo\u7684\u670D\u52A1\u7684\u626B\u63CF\u8DEF\u5F84
+#    dubbo的服务的扫描路径
     base-package: com.atguigu.gmall
 
 logging:

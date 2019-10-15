@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="demo" />
+        <module name="fastdfs-client-java" />
         <module name="gamall-user" />
         <module name="gmall-api" />
         <module name="gmall-common-util" />
@@ -20,6 +21,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="demo" target="1.8" />
+      <module name="fastdfs-client-java" target="1.6" />
       <module name="gamall-user" target="1.8" />
       <module name="gmall-api" target="1.8" />
       <module name="gmall-common-util" target="1.8" />
