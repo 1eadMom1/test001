@@ -1,10 +1,7 @@
 package com.atguigu.gmall.manage.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.atguigu.gmall.bean.PmsBaseAttrInfo;
-import com.atguigu.gmall.bean.PmsProductImage;
-import com.atguigu.gmall.bean.PmsProductInfo;
-import com.atguigu.gmall.bean.PmsProductSaleAttr;
+import com.atguigu.gmall.bean.*;
 import com.atguigu.gmall.manage.util.PmsUploadUtil;
 import com.atguigu.gmall.service.SpuService;
 import org.springframework.stereotype.Controller;
@@ -52,7 +49,7 @@ public class SpuController {
     @RequestMapping("saveSpuInfo")
     @ResponseBody
     public String saveSpuInfo(@RequestBody PmsProductInfo pmsProductInfo){
-
+        spuService.saveSpuInfo(pmsProductInfo);
         return "success";
     }
 }

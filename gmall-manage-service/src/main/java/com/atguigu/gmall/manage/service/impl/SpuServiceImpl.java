@@ -42,9 +42,10 @@ public class SpuServiceImpl implements SpuService {
             PmsProductSaleAttrValue pmsProductSaleAttrValue = new PmsProductSaleAttrValue();
             pmsProductSaleAttrValue.setProductId(spuId);
             pmsProductSaleAttrValue.setSaleAttrId(productSaleAttr.getSaleAttrId());
-            pmsProductSaleAttrValueMapper.select(pmsProductSaleAttrValue);
+            List<PmsProductSaleAttrValue> pmsProductSaleAttrValues = pmsProductSaleAttrValueMapper.select(pmsProductSaleAttrValue);
+            productSaleAttr.setSpuSaleAttrValueList(pmsProductSaleAttrValues);
         }
-        return null;
+        return pmsProductSaleAttrs;
     }
 
     @Override
@@ -54,6 +55,29 @@ public class SpuServiceImpl implements SpuService {
         List<PmsProductImage> pmsProductImages = pmsProductImageMapper.select(pmsProductImage);
         return pmsProductImages;
     }
+
+    @Override
+    public String saveSpuInfo(PmsProductInfo pmsProductInfo) {
+        pmsProductInfoMapper.insertSelective(pmsProductInfo);
+        return "success";
+    }
+
+    @Override
+    public List<PmsProductSaleAttr> spuSaleAttrListCheckByShu(String productId) {
+        PmsProductSaleAttr pmsProductSaleAttr = new PmsProductSaleAttr();
+        pmsProductSaleAttr.setProductId(productId);
+        List<PmsProductSaleAttr> pmsProductSaleAttrs = pmsProductSaleAttrMapper.select(pmsProductSaleAttr);
+        for (PmsProductSaleAttr productSaleAttr : pmsProductSaleAttrs) {
+            String saleAttrId = productSaleAttr.getSaleAttrId();
+            PmsProductSaleAttrValue pmsProductSaleAttrValue = new PmsProductSaleAttrValue();
+            pmsProductSaleAttrValue.setSaleAttrId(saleAttrId);
+            pmsProductSaleAttrValue.setProductId(productId);
+            List<PmsProductSaleAttrValue> pmsProductSaleAttrValues = pmsProductSaleAttrValueMapper.select(pmsProductSaleAttrValue);
+            productSaleAttr.setSpuSaleAttrValueList(pmsProductSaleAttrValues);
+        }
+        return pmsProductSaleAttrs;
+    }
+
 }
 
 

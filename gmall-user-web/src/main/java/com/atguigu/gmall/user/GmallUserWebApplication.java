@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 public class GmallUserWebApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(GmallUserWebApplication.class, args);
     }
 

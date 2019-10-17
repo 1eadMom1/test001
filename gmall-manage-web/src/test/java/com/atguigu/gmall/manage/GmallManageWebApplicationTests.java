@@ -28,7 +28,7 @@ public class GmallManageWebApplicationTests {
 
         StorageClient storageClient = new StorageClient(trackerServer,null);
 
-        String[] uploadInfos = storageClient.upload_file("C:/Users/xiexuyang/Pictures/Camera Roll/ico.jpg","jpg",null);
+        String[] uploadInfos = storageClient.upload_file("E:\\img\\5.jpg","jpg",null);
 
         String url = "http://192.168.243.130";
 

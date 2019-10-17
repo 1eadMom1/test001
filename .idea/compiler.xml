@@ -11,6 +11,7 @@
         <module name="gamall-user" />
         <module name="gmall-api" />
         <module name="gmall-common-util" />
+        <module name="gmall-item-web" />
         <module name="gmall-manage-service" />
         <module name="gmall-manage-web" />
         <module name="gmall-service-util" />
@@ -25,6 +26,7 @@
       <module name="gamall-user" target="1.8" />
       <module name="gmall-api" target="1.8" />
       <module name="gmall-common-util" target="1.8" />
+      <module name="gmall-item-web" target="1.8" />
       <module name="gmall-manage-service" target="1.8" />
       <module name="gmall-manage-web" target="1.8" />
       <module name="gmall-parent" target="1.8" />
@@ -32,7 +34,6 @@
       <module name="gmall-user-service" target="1.8" />
       <module name="gmall-user-web" target="1.8" />
       <module name="gmall-web-util" target="1.8" />
-      <module name="user-gmall" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
