@@ -23,9 +23,8 @@ public class RedisUtil {
 
     //=============================common============================
 
-    public void setnx(String key,String value,long time){
-        //redisTemplate.opsForValue().set(key,value,"n
-        //redisTemplate
+    public boolean setnx(String key,String value,long time,TimeUnit timeUnit){
+        return redisTemplate.opsForValue().setIfAbsent(key,value,time,timeUnit);
     }
 
     /**
