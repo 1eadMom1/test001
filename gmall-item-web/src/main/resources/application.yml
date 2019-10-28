@@ -2,26 +2,26 @@ server:
   port: 8082
 spring:
   dubbo:
-  # \u670D\u52A1\u540D\u79F0
+  # 服务名称
     application: item-web
     registry:
-# \u6CE8\u518C\u4E2D\u5FC3\u5730\u5740
+# 服务地址
       address: 192.168.243.130:2181
- # zookeeper\u901A\u8BAF\u534F\u8BAE\u540D\u79F0
+ # zookeeper通讯协议名称
       protocol: zookeeper
     protocol:
-    # dubbo\u901A\u8BAF\u534F\u8BAE\u540D\u79F0
+    # dubbo通讯协议名称
       name: dubbo
-# dubbo\u670D\u52A1\u7684\u626B\u63CF\u8DEF\u5F84
+# dubbo扫包路径
     base-package: com.atguigu.gmall
     consumer:
       timeout: 600000
       check: false
   thymeleaf:
-    #\u5173\u95EDthymeleaf\u7684\u7F13\u5B58\uFF08\u70ED\u90E8\u7F72\uFF09
+    #缓存
     cache: false
-    #\u677E\u68C0\u9A8C
+    #验证
     mode: LEGACYHTML5
 logging:
   level:
-    root: debug
+    root: info

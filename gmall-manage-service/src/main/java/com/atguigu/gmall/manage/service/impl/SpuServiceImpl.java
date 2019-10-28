@@ -57,9 +57,29 @@ public class SpuServiceImpl implements SpuService {
     }
 
     @Override
-    public String saveSpuInfo(PmsProductInfo pmsProductInfo) {
+    public void saveSpuInfo(PmsProductInfo pmsProductInfo) {
+        // 保存商品信息
         pmsProductInfoMapper.insertSelective(pmsProductInfo);
-        return "success";
+        // 生成商品主键
+        String productId = pmsProductInfo.getId();
+        // 保存商品图片信息
+        List<PmsProductImage> spuImageList = pmsProductInfo.getSpuImageList();
+        for (PmsProductImage pmsProductImage : spuImageList) {
+            pmsProductImage.setProductId(productId);
+            pmsProductImageMapper.insertSelective(pmsProductImage);
+        }
+        // 保存销售属性信息
+        List<PmsProductSaleAttr> spuSaleAttrList = pmsProductInfo.getSpuSaleAttrList();
+        for (PmsProductSaleAttr pmsProductSaleAttr : spuSaleAttrList) {
+            pmsProductSaleAttr.setProductId(productId);
+            pmsProductSaleAttrMapper.insertSelective(pmsProductSaleAttr);
+            // 保存销售属性值
+            List<PmsProductSaleAttrValue> spuSaleAttrValueList = pmsProductSaleAttr.getSpuSaleAttrValueList();
+            for (PmsProductSaleAttrValue pmsProductSaleAttrValue : spuSaleAttrValueList) {
+                pmsProductSaleAttrValue.setProductId(productId);
+                pmsProductSaleAttrValueMapper.insertSelective(pmsProductSaleAttrValue);
+            }
+        }
     }
 
     @Override

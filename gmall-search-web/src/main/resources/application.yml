@@ -1,0 +1,27 @@
+server:
+  port: 8083
+spring:
+  dubbo:
+  # \u670D\u52A1\u540D\u79F0
+    application: search-web
+    registry:
+# \u670D\u52A1\u5730\u5740
+      address: 192.168.243.130:2181
+ # zookeeper\u901A\u8BAF\u534F\u8BAE\u540D\u79F0
+      protocol: zookeeper
+    protocol:
+    # dubbo\u901A\u8BAF\u534F\u8BAE\u540D\u79F0
+      name: dubbo
+# dubbo\u626B\u5305\u8DEF\u5F84
+    base-package: com.atguigu.gmall
+    consumer:
+      timeout: 600000
+      check: false
+  thymeleaf:
+    #\u7F13\u5B58
+    cache: false
+    #\u9A8C\u8BC1
+    mode: LEGACYHTML5
+logging:
+  level:
+    root: info
