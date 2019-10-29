@@ -5,6 +5,7 @@ import com.alibaba.nacos.client.utils.StringUtils;
 import com.atguigu.gmall.bean.PmsBaseAttrInfo;
 import com.atguigu.gmall.bean.PmsBaseAttrValue;
 import com.atguigu.gmall.bean.PmsBaseSaleAttr;
+import com.atguigu.gmall.bean.PmsSearchParam;
 import com.atguigu.gmall.manage.mapper.PmsBaseAttrInfoMapper;
 import com.atguigu.gmall.manage.mapper.PmsBaseAttrValueMapper;
 import com.atguigu.gmall.manage.mapper.PmsBaseSaleAttrMapper;
@@ -14,6 +15,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class AttrServiceImpl implements AttrService {
@@ -72,6 +74,7 @@ public class AttrServiceImpl implements AttrService {
     }
 
 
+
     @Override
     public List<PmsBaseAttrValue> getAttrValueList(String attrId) {
         PmsBaseAttrValue pmsBaseAttrValue = new PmsBaseAttrValue();
@@ -82,6 +85,13 @@ public class AttrServiceImpl implements AttrService {
     @Override
     public List<PmsBaseSaleAttr> baseSaleAttrList() {
         return pmsBaseSaleAttrMapper.selectAll();
+    }
+
+    @Override
+    public List<PmsBaseAttrInfo> getAttrValueListByValueId(Set<String> valueSet) {
+        String valueIdStr = StringUtils.join(valueSet,",");
+        List<PmsBaseAttrInfo> pmsBaseAttrInfos = pmsBaseAttrInfoMapper.selectAttrValueListByValueId(valueIdStr);
+        return pmsBaseAttrInfos;
     }
 
 }

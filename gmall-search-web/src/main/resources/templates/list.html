@@ -321,7 +321,7 @@
 
                     <!--分页-->
                     <div class="filter_page">
-                        <div class="page_wrap">
+                    <div class="page_wrap">
                             <span class="page_span1">
                                 <a href="#">
                                     < 上一页
@@ -335,14 +335,14 @@
                                     下一页 >
                                 </a>
                             </span>
-                            <span class="page_span2">
+                        <span class="page_span2">
                                 <em>共<b>169</b>页&nbsp;&nbsp;到第</em>
                                 <input type="number" value="1">
                                 <em>页</em>
                                 <a href="#">确定</a>
                             </span>
-                        </div>
                     </div>
+                </div>
                 </div>
             </div>
         </div>
@@ -455,7 +455,7 @@
         $(this).css({display:"none"})
     });
     //显示隐藏
-    var $li = $(".GM_nav_logo>div:gt(3)").hide();
+    var $li = $(".GM_nav_logo>div:gt(3)").show();
       $('.GM_show span').click(function(){
           if($li.is(':hidden')){
               $li.show();
