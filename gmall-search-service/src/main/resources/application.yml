@@ -1,5 +1,5 @@
 server:
-  port: 8074
+  port: 8073
 spring:
   datasource:
     username: root

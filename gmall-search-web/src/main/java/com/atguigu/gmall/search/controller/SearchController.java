@@ -86,15 +86,15 @@ public class SearchController {
 
         String urlParam = "";
 
-        if (com.alibaba.nacos.client.utils.StringUtils.isNotBlank(keyword)) {
-            if (com.alibaba.nacos.client.utils.StringUtils.isNotBlank(urlParam)) {
+        if (StringUtils.isNotBlank(keyword)) {
+            if (StringUtils.isNotBlank(urlParam)) {
                 urlParam = urlParam + "&";
             }
             urlParam = urlParam + "keyword=" + keyword;
         }
 
-        if (com.alibaba.nacos.client.utils.StringUtils.isNotBlank(catalog3Id)) {
-            if (com.alibaba.nacos.client.utils.StringUtils.isNotBlank(urlParam)) {
+        if (StringUtils.isNotBlank(catalog3Id)) {
+            if (StringUtils.isNotBlank(urlParam)) {
                 urlParam = urlParam + "&";
             }
             urlParam = urlParam + "catalog3Id=" + catalog3Id;
