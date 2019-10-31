@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.atguigu.gmall.bean.OmsCartItem;
 import com.atguigu.gmall.bean.PmsSkuInfo;
+import com.atguigu.gmall.service.CartService;
 import com.atguigu.gmall.service.SkuService;
 import com.atguigu.gmall.util.CookieUtil;
 import jdk.nashorn.internal.runtime.ECMAErrors;
@@ -25,8 +26,13 @@ public class CartController {
     @Reference
     SkuService skuService;
 
+    @Reference
+    CartService cartService;
+
     @RequestMapping("addToCart")
     public String addToCart(String skuId,int quantity, HttpServletRequest request, HttpServletResponse response){
+
+        List<OmsCartItem> omsCartItems = new ArrayList<>();
 
         //调用商品服务查询商品信息
         PmsSkuInfo skuInfo = skuService.getSkuById(skuId,"");
@@ -49,7 +55,7 @@ public class CartController {
         String memberId = "";//"1"
         if (StringUtils.isBlank(memberId)){
             //用户没有登录
-            List<OmsCartItem> omsCartItems = new ArrayList<>();
+
             //cookie里原有的购物车数据
             String cartListCookie  = CookieUtil.getCookieValue(request,"cartListCookie",true);
             if (StringUtils.isBlank(cartListCookie)){
@@ -73,11 +79,24 @@ public class CartController {
             CookieUtil.setCookie(request,response,"cartListCookie", JSON.toJSONString(omsCartItems),60*60*72,true);
         }else{
             //用户已经登录
+            // 用户已经登录
+            // 从db中查出购物车数据
+            OmsCartItem omsCartItemFromDb = cartService.ifCartExistByUser(memberId,skuId);
 
+            if(omsCartItemFromDb==null){
+                // 该用户没有添加过当前商品
+                omsCartItem.setMemberId(memberId);
+                omsCartItem.setMemberNickname("test小明");
+                omsCartItem.setQuantity(new BigDecimal(quantity));
+                cartService.addCart(omsCartItem);
+            }else{
+                // 该用户添加过当前商品
+                omsCartItemFromDb.setQuantity(omsCartItemFromDb.getQuantity().add(omsCartItem.getQuantity()));
+                cartService.updateCart(omsCartItemFromDb);
+            }
+            // 同步缓存
+            cartService.flushCartCache(memberId);
         }
-
-
-
         return "redirect:/success.html";
     }
 
