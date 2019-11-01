@@ -2,6 +2,9 @@ package com.atguigu.gmall.service;
 
 import com.atguigu.gmall.bean.OmsCartItem;
 
+import java.util.List;
+import java.util.Map;
+
 public interface CartService {
     OmsCartItem ifCartExistByUser(String memberId, String skuId);
 
@@ -10,4 +13,8 @@ public interface CartService {
     void updateCart(OmsCartItem omsCartItemFromDb);
 
     void flushCartCache(String memberId);
+
+    List<OmsCartItem> cartList(String memberId);
+
+    void checkCart(OmsCartItem omsCartItem);
 }

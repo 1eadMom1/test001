@@ -11,6 +11,7 @@ public class GmallCartWebApplicationTests {
 
     @Test
     public void contextLoads() {
+
     }
 
 }
