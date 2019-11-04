@@ -25,4 +25,4 @@ mybatis:
     map-underscore-to-camel-case: true
 logging:
   level:
-    root: debug
+    root: info

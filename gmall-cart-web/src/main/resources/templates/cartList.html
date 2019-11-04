@@ -168,7 +168,7 @@
 <script type="text/javascript">
 
      function toTrade(){
-         window.location.href="http://cart.gmall.com:8087/toTrade";
+         window.location.href="http://order.gmall.com:8086/toTrade";
     }
     function toItem(skuId) {
         window.location.href="http://item.gmall.com:8084/"+skuId+".html";
@@ -186,11 +186,9 @@
        if(checked){
            isCheckedFlag="1";
        }
-
         $.post("checkCart","isChecked="+isCheckedFlag+"&"+"skuId="+skuId,function (html) {
             // 服务会返回一个inner内嵌页面给ajax，我们返回的新的页面刷新替换掉原来的老的页面
-            //$("#cartListInner").html(html);
-            alert(html);
+            $("#totalAmount").text("￥"+html);
         });
 
     }

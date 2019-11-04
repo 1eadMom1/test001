@@ -14,9 +14,9 @@ import tk.mybatis.mapper.entity.Example;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl{
 
-    @Autowired
+    /*@Autowired
     UserMapper userMapper;
 
     @Autowired
@@ -37,5 +37,5 @@ public class UserServiceImpl implements UserService {
         Example e=new Example(UmsMemberReceiveAddress.class);
         e.createCriteria().andEqualTo("memberId",memberId);
         return umsMemberReceiveAddressMapper.selectByExample(e);
-    }
+    }*/
 }
