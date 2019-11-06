@@ -14,9 +14,8 @@ public class MvcConfig implements WebMvcConfigurer {
     AuthInterceptor authInterceptor;
 
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        String[] pathPatterns = {"/**"};  //只进行拦截的路径
-        String[] excludePath = {"/error","/js/**","/css/**","/success.html","/img/**"};
-        registry.addInterceptor(authInterceptor).addPathPatterns(pathPatterns).excludePathPatterns(excludePath);
+    public void addInterceptors(InterceptorRegistry registry){
+        registry.addInterceptor(authInterceptor).addPathPatterns("/**").excludePathPatterns("/error","classpath:/static/");
+
     }
 }

@@ -17,14 +17,17 @@ import java.util.Map;
 
 @Component
 public class AuthInterceptor extends HandlerInterceptorAdapter {
+
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        // 拦截代码
-        // 判断被拦截的请求的访问的方法的注解(是否时需要拦截的)
+
+        if(!(handler instanceof  HandlerMethod)){
+            return true;
+        }
+
         HandlerMethod hm = (HandlerMethod) handler;
         LoginRequired methodAnnotation = hm.getMethodAnnotation(LoginRequired.class);
 
         StringBuffer url = request.getRequestURL();
-        System.out.println(url);
 
         // 是否拦截
         if (methodAnnotation == null) {
@@ -91,11 +94,13 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
                 //验证通过，覆盖cookie中的token
                 if(StringUtils.isNotBlank(token)){
-                    CookieUtil.setCookie(request,response,"oldToken",token,60*60*2000,true);
+                    CookieUtil.setCookie(request,response,"oldToken",token,60*60*2,true);
                 }
+
             }
         }
-        System.out.println(response.isCommitted());
+
+
         return true;
     }
 }

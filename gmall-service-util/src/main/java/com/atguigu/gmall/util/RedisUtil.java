@@ -2,9 +2,12 @@ package com.atguigu.gmall.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +27,13 @@ public class RedisUtil {
 
     @Autowired
     RedisTemplate<String, String> redisTemplate;
+
+    @Resource
+    StringRedisTemplate stringRedisTemplate;
+
+    public Boolean eval(DefaultRedisScript<Boolean> redisScript,List<String> keys,String argv){
+        return stringRedisTemplate.execute(redisScript,keys,argv);
+    }
 
     //=============================common============================
 

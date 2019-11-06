@@ -79,6 +79,14 @@ public class UserServiceImpl implements UserService {
         userMapper.insertSelective(umsMember);
     }
 
+    @Override
+    public UmsMemberReceiveAddress getReceiveAddressById(String receiveAddressId) {
+        UmsMemberReceiveAddress umsMemberReceiveAddress = new UmsMemberReceiveAddress();
+        umsMemberReceiveAddress.setId(receiveAddressId);
+        UmsMemberReceiveAddress umsMemberReceiveAddress1 = umsMemberReceiveAddressMapper.selectOne(umsMemberReceiveAddress);
+        return umsMemberReceiveAddress1;
+    }
+
     private UmsMember loginFromDb(UmsMember umsMember) {
         List<UmsMember> umsMembers = userMapper.select(umsMember);
         if (umsMembers != null&&umsMembers.size()>0) {

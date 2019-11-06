@@ -17,4 +17,6 @@ public interface UserService {
     UmsMember checkOauthUser(UmsMember umsCheck);
 
     void addOauthUser(UmsMember umsMember);
+
+    UmsMemberReceiveAddress getReceiveAddressById(String receiveAddressId);
 }

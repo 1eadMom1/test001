@@ -15,6 +15,7 @@ import com.atguigu.gmall.service.SkuService;
 import com.atguigu.gmall.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -142,5 +143,20 @@ public class SkuServiceImpl implements SkuService {
             pmsSkuInfo.setSkuAttrValueList(select);
         }
         return pmsSkuInfos;
+    }
+
+    @Override
+    public boolean checkPrice(String productSkuId, BigDecimal price) {
+        boolean b = false;
+
+        PmsSkuInfo pmsSkuInfo = new PmsSkuInfo();
+        pmsSkuInfo.setId(productSkuId);
+        PmsSkuInfo pmsSkuInfo1 = pmsSkuInfoMapper.selectOne(pmsSkuInfo);
+
+        BigDecimal productPrice = pmsSkuInfo1.getPrice();
+        if(productPrice.compareTo(price)==0){
+            b = true;
+        }
+        return b;
     }
 }
