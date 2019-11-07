@@ -19,8 +19,9 @@ spring:
 #       dubbo扫描包的路径
     base-package: com.atguigu.gmall
   redis:
-    port: 6371
     host: 192.168.243.130
+    port: 6371
+    database: 0
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml

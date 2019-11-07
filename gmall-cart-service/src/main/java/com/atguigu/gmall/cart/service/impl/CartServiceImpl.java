@@ -9,6 +9,7 @@ import com.atguigu.gmall.util.RedisUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SqlRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import redis.clients.jedis.Jedis;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
@@ -51,31 +52,36 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void flushCartCache(String memberId) {
+        Jedis jedis = redisUtil.getJedis();
         if(memberId!=null){
         OmsCartItem omsCartItem = new OmsCartItem();
         omsCartItem.setMemberId(memberId);
         List<OmsCartItem> omsCartItems = omsCartItemMapper.select(omsCartItem);
         // 同步到redis缓存中
-        Map<String,Object> map = new HashMap<>();
+        Map<String,String> map = new HashMap<>();
         for (OmsCartItem cartItem : omsCartItems) {
             cartItem.setTotalPrice(cartItem.getPrice().multiply(cartItem.getQuantity()));
             map.put(cartItem.getProductSkuId(), JSON.toJSONString(cartItem));
         }
-        redisUtil.del("user:"+memberId+":cart");
-        redisUtil.hmset("user:"+memberId+":cart",map);
+            jedis.del("user:"+memberId+":cart");
+            jedis.hmset("user:"+memberId+":cart",map);
+
         }else{
             /*redisUtil.del("user:"+memberId+":cart");
             redisUtil.hmset("user:"+memberId+":cart",cartMap);*/
         }
+        jedis.close();
     }
 
     @Override
     public List<OmsCartItem> cartList(String userId) {
+        Jedis jedis = null;
         List<OmsCartItem> omsCartItems = new ArrayList<>();
         try {
-            Map<Object, Object> hvals = redisUtil.hmget("user:" + userId + ":cart");
-            for (Object o : hvals.values()) {
-                OmsCartItem omsCartItem = JSON.parseObject(o.toString(),OmsCartItem.class);
+            jedis = redisUtil.getJedis();
+            List<String> hvals = jedis.hvals("user:" + userId + ":cart");
+            for (String o : hvals) {
+                OmsCartItem omsCartItem = JSON.parseObject(o, OmsCartItem.class);
                 omsCartItems.add(omsCartItem);
             }
         }catch (Exception e){
@@ -84,6 +90,8 @@ public class CartServiceImpl implements CartService {
             //String message = e.getMessage();
             //logService.addErrLog(message);
             return null;
+        }finally {
+            jedis.close();
         }
         return omsCartItems;
     }

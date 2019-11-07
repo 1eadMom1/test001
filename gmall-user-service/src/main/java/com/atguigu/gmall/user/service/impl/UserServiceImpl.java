@@ -10,6 +10,7 @@ import com.atguigu.gmall.util.RedisUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
+import redis.clients.jedis.Jedis;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -45,27 +46,35 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UmsMember login(UmsMember umsMember) {
-        if(redisUtil!=null){
-            String umsMemberStr =
-                    redisUtil.get("user:" + umsMember.getPassword() + ":info")!=null?
-                            redisUtil.get("user:" + umsMember.getPassword() + ":info").toString():null;
-            if (StringUtils.isNotBlank(umsMemberStr)) {
-                // 密码正确
-                UmsMember umsMemberFromCache = JSON.parseObject(umsMemberStr, UmsMember.class);
-                return umsMemberFromCache;
+        Jedis jedis = null;
+        try {
+            jedis = redisUtil.getJedis();
+            if(jedis!=null){
+                String umsMemberStr = jedis.get("user:" + umsMember.getPassword()+umsMember.getUsername() + ":info");
+                if (StringUtils.isNotBlank(umsMemberStr)) {
+                    // 密码正确
+                    UmsMember umsMemberFromCache = JSON.parseObject(umsMemberStr, UmsMember.class);
+                    return umsMemberFromCache;
+                }
             }
+            // 链接redis失败，开启数据库
+            UmsMember umsMemberFromDb =loginFromDb(umsMember);
+            if(umsMemberFromDb!=null){
+                jedis.setex("user:" + umsMember.getPassword()+umsMember.getUsername() + ":info",60*60*24, JSON.toJSONString(umsMemberFromDb));
+            }
+            return umsMemberFromDb;
+        }finally {
+            jedis.close();
         }
-        // 链接redis失败，开启数据库
-        UmsMember umsMemberFromDb =loginFromDb(umsMember);
-        if(umsMemberFromDb!=null){
-            redisUtil.setnx("user:" + umsMember.getPassword() + ":info",JSON.toJSONString(umsMemberFromDb),60*60*24,TimeUnit.SECONDS);
-        }
-        return umsMemberFromDb;
     }
 
     @Override
     public void addUserToken(String token, String memberId) {
-        redisUtil.setnx("user:"+memberId+":token",token,60*60*2,TimeUnit.SECONDS);
+        Jedis jedis = redisUtil.getJedis();
+
+        jedis.setex("user:"+memberId+":token",60*60*2,token);
+
+        jedis.close();
     }
 
     @Override

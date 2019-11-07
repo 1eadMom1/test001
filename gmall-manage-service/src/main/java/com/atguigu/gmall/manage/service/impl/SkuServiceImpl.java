@@ -14,6 +14,7 @@ import com.atguigu.gmall.manage.mapper.PmsSkuSaleAttrValueMapper;
 import com.atguigu.gmall.service.SkuService;
 import com.atguigu.gmall.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import redis.clients.jedis.Jedis;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -77,13 +78,15 @@ public class SkuServiceImpl implements SkuService {
 
     @Override
     public PmsSkuInfo getSkuById(String skuId,String ip) {
+
         System.out.println("ip为"+ip+"的同学:"+Thread.currentThread().getName()+"进入的商品详情的请求");
         PmsSkuInfo pmsSkuInfo = new PmsSkuInfo();
         // 链接缓存
+        Jedis jedis = redisUtil.getJedis();
         //Jedis jedis = redisUtil.getJedis();
         // 查询缓存
         String skuKey = "sku:"+skuId+":info";
-        String skuJson = redisUtil.get(skuKey)!=null?redisUtil.get(skuKey).toString():null;
+        String skuJson = jedis.get(skuKey);
 
         if(StringUtils.isNotBlank(skuJson)){//if(skuJson!=null&&!skuJson.equals(""))
             System.out.println("ip为"+ip+"的同学:"+Thread.currentThread().getName()+"从缓存中获取商品详情");
@@ -95,8 +98,8 @@ public class SkuServiceImpl implements SkuService {
 
             // 设置分布式锁
             String token = UUID.randomUUID().toString();
-            boolean OK = redisUtil.setnx("sku:" + skuId + ":lock", token, 10*1000, TimeUnit.MILLISECONDS);// 拿到锁的线程有10秒的过期时间
-            if(OK){
+            String OK = jedis.set("sku:" + skuId + ":lock", token, "nx", "px", 10*1000);// 拿到锁的线程有10秒的过期时间
+            if(StringUtils.isNotBlank(OK)&&OK.equals("OK")){
                 // 设置成功，有权在10秒的过期时间内访问数据库
                 System.out.println("ip为"+ip+"的同学:"+Thread.currentThread().getName()+"有权在10秒的过期时间内访问数据库："+"sku:" + skuId + ":lock");
 
@@ -104,18 +107,18 @@ public class SkuServiceImpl implements SkuService {
 
                 if(pmsSkuInfo!=null){
                     // mysql查询结果存入redis
-                    redisUtil.set("sku:"+skuId+":info",JSON.toJSONString(pmsSkuInfo));
+                    jedis.set("sku:"+skuId+":info",JSON.toJSONString(pmsSkuInfo));
                 }else{
                     // 数据库中不存在该sku
                     // 为了防止缓存穿透将，null或者空字符串值设置给redis
-                    redisUtil.setnx("sku:"+skuId+":info",JSON.toJSONString(""),60*3,TimeUnit.SECONDS);
+                    jedis.setex("sku:"+skuId+":info",60*3,JSON.toJSONString(""));
                 }
                 // 在访问mysql后，将mysql的分布锁释放
                 System.out.println("ip为"+ip+"的同学:"+Thread.currentThread().getName()+"使用完毕，将锁归还："+"sku:" + skuId + ":lock");
-                String lockToken = redisUtil.get("sku:" + skuId + ":lock").toString();
+                String lockToken = jedis.get("sku:" + skuId + ":lock").toString();
                 if(StringUtils.isNotBlank(lockToken)&&lockToken.equals(token)){
                     //jedis.eval("lua");可与用lua脚本，在查询到key的同时删除该key，防止高并发下的意外的发生
-                    redisUtil.del("sku:" + skuId + ":lock");// 用token确认删除的是自己的sku的锁
+                    jedis.del("sku:" + skuId + ":lock");// 用token确认删除的是自己的sku的锁
                 }
             }else{
                 // 设置失败，自旋（该线程在睡眠几秒后，重新尝试访问本方法）

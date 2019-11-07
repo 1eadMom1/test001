@@ -19,8 +19,9 @@ spring:
 #       dubbo\u626B\u63CF\u5305\u7684\u8DEF\u5F84
     base-package: com.atguigu.gmall
   redis:
-    port: 6371
     host: 192.168.243.130
+    port: 6371
+    database: 0
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml

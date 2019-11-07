@@ -5,9 +5,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
@@ -16,16 +15,14 @@ import java.util.concurrent.TimeUnit;
 @SpringBootTest
 public class GmallManageServiceApplicationTests {
 
-    @Resource
+    @Autowired
     RedisUtil redisUtil;
-
-    @Resource
-    StringRedisTemplate stringRedisTemplate;
 
     @Test
     public void contextLoads() {
-        System.out.println(stringRedisTemplate.opsForValue().setIfAbsent("k", "v", 1, TimeUnit.HOURS));
-        System.out.println(stringRedisTemplate.opsForValue().setIfAbsent("k", "v", 1, TimeUnit.HOURS));
+        Jedis jedis = redisUtil.getJedis();
+        jedis.set("111","222");
+        System.out.println(jedis.get("111"));
     }
 
 }

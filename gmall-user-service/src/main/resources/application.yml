@@ -19,6 +19,10 @@ spring:
       name: dubbo
 #       dubbo的服务的扫描路径
     base-package: com.atguigu.gmall
+  redis:
+    port: 6371
+    host: 192.168.243.130
+    database: 0
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   configuration:
