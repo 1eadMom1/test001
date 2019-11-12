@@ -41,7 +41,7 @@ public class OrderController {
     SkuService skuService;
 
     @RequestMapping("submitOrder")
-    @LoginRequired
+    @LoginRequired(loginSuccess = true)
     public ModelAndView submitOrder(String receiveAddressId, BigDecimal totalAmount, String tradeCode, HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap){
         String memberId = (String) request.getAttribute("memberId");
         String nickname = (String) request.getAttribute("nickname");
@@ -82,7 +82,7 @@ public class OrderController {
             Date time = c.getTime();
             omsOrder.setReceiveTime(time);
             omsOrder.setSourceType(0);
-            omsOrder.setStatus(0);
+            omsOrder.setStatus("0");
             omsOrder.setOrderType(0);
             omsOrder.setTotalAmount(totalAmount);
 
@@ -134,7 +134,7 @@ public class OrderController {
 
 
     @RequestMapping("toTrade")
-    @LoginRequired
+    @LoginRequired(loginSuccess = true)
     public String toTrade(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) {
         String memberId = (String) request.getAttribute("memberId");
         String nickname = (String) request.getAttribute("nickname");

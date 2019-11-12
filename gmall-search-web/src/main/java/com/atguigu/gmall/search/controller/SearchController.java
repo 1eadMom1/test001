@@ -5,11 +5,13 @@ import com.atguigu.gmall.annotations.LoginRequired;
 import com.atguigu.gmall.bean.*;
 import com.atguigu.gmall.service.AttrService;
 import com.atguigu.gmall.service.SearchService;
+import com.atguigu.gmall.util.JwtUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Controller
@@ -22,6 +24,7 @@ public class SearchController {
     AttrService attrService;
 
     @RequestMapping("list.html")
+    @LoginRequired(loginSuccess = false)
     public String list(PmsSearchParam pmsSearchParam, ModelMap modelMap) {
         // 调用搜索服务，返回搜索结果
         List<PmsSearchSkuInfo> pmsSearchSkuInfos = searchService.list(pmsSearchParam);
@@ -136,12 +139,12 @@ public class SearchController {
         }
         return urlParam;
     }
-
     @RequestMapping("index")
     @LoginRequired(loginSuccess = false)
     public String index() {
         return "index";
     }
+
 }
 
 

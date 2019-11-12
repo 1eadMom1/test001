@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
                 }
             }
             // 链接redis失败，开启数据库
-            UmsMember umsMemberFromDb =loginFromDb(umsMember);
+             UmsMember umsMemberFromDb =loginFromDb(umsMember);
             if(umsMemberFromDb!=null){
                 jedis.setex("user:" + umsMember.getPassword()+umsMember.getUsername() + ":info",60*60*24, JSON.toJSONString(umsMemberFromDb));
             }

@@ -1,11 +1,17 @@
 package com.atguigu.gmall.payment.controller;
 
+
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.atguigu.gmall.annotations.LoginRequired;
+import com.atguigu.gmall.bean.OmsOrder;
+import com.atguigu.gmall.bean.PaymentInfo;
 import com.atguigu.gmall.payment.config.AlipayConfig;
+import com.atguigu.gmall.service.OrderService;
+import com.atguigu.gmall.service.PaymentService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,11 +31,17 @@ public class PaymentController {
     @Autowired
     AlipayClient alipayClient;
 
+    @Autowired
+    PaymentService paymentService;
+
+    @Reference
+    OrderService orderService;
+
     @RequestMapping("alipay/callback/return")
     @LoginRequired(loginSuccess = true)
     public String aliPayCallBackReturn(HttpServletRequest request, ModelMap modelMap){
 
-        /*// 回调请求中获取支付宝参数
+        // 回调请求中获取支付宝参数
         String sign = request.getParameter("sign");
         String trade_no = request.getParameter("trade_no");
         String out_trade_no = request.getParameter("out_trade_no");
@@ -50,9 +63,12 @@ public class PaymentController {
             // 更新用户的支付状态
             paymentService.updatePayment(paymentInfo);
 
-        }*/
+        }
+
         return "finish";
     }
+
+
 
     @RequestMapping("alipay/submit")
     @LoginRequired(loginSuccess = true)
@@ -83,11 +99,24 @@ public class PaymentController {
         } catch (AlipayApiException e) {
             e.printStackTrace();
         }
+
+        // 生成并且保存用户的支付信息
+        OmsOrder omsOrder = orderService.getOrderByOutTradeNo(outTradeNo);
+        PaymentInfo paymentInfo = new PaymentInfo();
+        paymentInfo.setCreateTime(new Date());
+        paymentInfo.setOrderId(omsOrder.getId());
+        paymentInfo.setOrderSn(outTradeNo);
+        paymentInfo.setPaymentStatus("未付款");
+        paymentInfo.setSubject("谷粒商城商品一件");
+        paymentInfo.setTotalAmount(totalAmount);
+        paymentService.savePaymentInfo(paymentInfo);
+        // 提交请求到支付宝
+        paymentService.sendDelayPaymentResultCheckQueue(outTradeNo,5);
         return form;
     }
 
     @RequestMapping("index")
-    @LoginRequired
+    @LoginRequired(loginSuccess = true)
     public String index(String outTradeNo, BigDecimal totalAmount, HttpServletRequest request, ModelMap modelMap){
         String memberId = (String)request.getAttribute("memberId");
         String nickname = (String)request.getAttribute("nickname");
@@ -97,5 +126,12 @@ public class PaymentController {
         modelMap.put("totalAmount",totalAmount);
 
         return "index";
+    }
+
+
+    @RequestMapping("mx/submit")
+    @LoginRequired(loginSuccess = true)
+    public String mx(String outTradeNo, BigDecimal totalAmount, HttpServletRequest request, ModelMap modelMap){
+        return null;
     }
 }

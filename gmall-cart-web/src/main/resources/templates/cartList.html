@@ -23,7 +23,12 @@
 
             </ul>
             <ul class="header-right">
-                <li><a href="../登录页面\index.html" style="color: red;">你好，请登录</a></li>
+                <li th:if="${nickname==null}">
+                    <a href="../登录页面\index.html" class="li_2">你好，请登录</a>
+                </li>
+                <li th:if="${nickname!=null}">
+                    <a href="#" style="color: red;" th:text="${nickname}"></a>
+                </li>
                 <li><a href="../注册页面\index.html" >免费注册</a></li>
                 <li class="spacer"></li>
                 <li><a href="">我的订单</a></li>
@@ -44,7 +49,7 @@
     <div class="one_sousuo">
         <div class="one_search_top">
             <div class="one_top_left">
-                <a href="../" class="one_left_logo"><img src="img/logo1.jpg"></a>
+                <a href="../" class="one_left_logo"><img src="img/logo1.jpg" height="50px"></a>
                 <a href="#" class="one_left_link">购物车</a>
             </div>
             <div class="one_top_right">
@@ -137,27 +142,6 @@
         <dd>没有下柜商品!</dd>
     </dl>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!--底部-->
 
 <div class="one_footer">
@@ -168,14 +152,14 @@
 <script type="text/javascript">
 
      function toTrade(){
-         window.location.href="http://order.gmall.com:8086/toTrade";
+         window.location.href="http://order.gmall.com/toTrade";
     }
     function toItem(skuId) {
-        window.location.href="http://item.gmall.com:8084/"+skuId+".html";
+        window.location.href="http://item.gmall.com/"+skuId+".html";
     }
 
     function login(){
-      var s = encodeURIComponent("http://cart.gmall.com:8087/cartList");
+      var s = encodeURIComponent("http://cart.gmall.com/cartList");
        window.location.href="http://passport.atguigu.com/index?originUrl="+s;
     }
 
@@ -353,13 +337,13 @@
         })
     })
     //子选择框全部选中复选框也选中
-    $(".check").click(function(){
-        if($(".check[class='check']:checked").length==$(".check[class='check']").length){
-            $(".allCheck").prop("checked",true);
-        }else{
-            $(".allCheck").prop("checked",false)
-        }
-    })
+     $(".check").click(function(){
+         if($(".check[class='check']:checked").length==$(".check[class='check']").length){
+             $(".allCheck").prop("checked",true);
+         }else{
+             $(".allCheck").prop("checked",false)
+         }
+     })
     //删除已选的商品
     $(".One_ShopFootBuy>div:first-child ul li:nth-child(2)").click(function(){
         // $(".check").each(function(){
@@ -378,7 +362,7 @@
         // })
         //var that=$(this);
         //确定删除
-  /*      $(".One_isDel>div:last-child button:first-child").click(function(){
+        $(".One_isDel>div:last-child button:first-child").click(function(){
             $(".One_mb").hide();    //蒙版隐藏
             $(".One_isDel").hide(); //删除弹框隐藏
             $(".check:checked").parent().parent().parent().parent().remove();  //删除选中商品
@@ -390,7 +374,7 @@
                 $(".sumNum").html("0");
                 $(".fnt").html("￥ 0.00");
             }
-        })*/
+        })
     })
     //确定删除弹框移入我的关注
     $(".One_isDel>div:last-child button:last-child").click(function(){
@@ -437,7 +421,7 @@
         $(".One_DengLu").show();
     })
 
-    $(".One_DengLu>p:first-child span:last-child img").click(function(){
+    $(".One_DbbengLu>p:first-child span:last-child img").click(function(){
         $(".One_mb").hide();
         $(".One_DengLu").hide();
     })
@@ -515,7 +499,7 @@
         $(".One_isDel").show();
         var that=$(this);
         //确定删除
-/*        $(".One_isDel>div:last-child button:first-child").click(function(){
+        $(".One_isDel>div:last-child button:first-child").click(function(){
             $(".One_mb").hide();
             $(".One_isDel").hide();
             that.parent().parent().parent().parent().remove();
@@ -531,7 +515,7 @@
                 $(".sumNum").html("0");
                 $(".fnt").html("￥ 0.00");
             }
-        })*/
+        })
     })
 /*    //页面滚动删除去结算固定定位隐藏
     $(document).scroll(function(){

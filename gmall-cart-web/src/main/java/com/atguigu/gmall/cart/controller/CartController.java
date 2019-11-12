@@ -10,6 +10,7 @@ import com.atguigu.gmall.service.SkuService;
 import com.atguigu.gmall.util.CookieUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -80,7 +81,7 @@ public class CartController {
                 omsCartItems = JSON.parseArray(cartListCookie, OmsCartItem.class);
             }
         }
-
+        
         for (OmsCartItem omsCartItem : omsCartItems) {
             omsCartItem.setTotalPrice(omsCartItem.getPrice().multiply(omsCartItem.getQuantity()));
         }
@@ -103,7 +104,7 @@ public class CartController {
 
     @RequestMapping("addToCart")
     @LoginRequired(loginSuccess = false)
-    public String addToCart(String skuId, int quantity, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public String addToCart(String skuId, int quantity, HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
         List<OmsCartItem> omsCartItems = new ArrayList<>();
 
         // 调用商品服务查询商品信息
@@ -176,8 +177,9 @@ public class CartController {
             // 同步缓存
             cartService.flushCartCache(memberId);
         }
-
-        return "redirect:/success.html";
+        modelMap.put("skuInfo",skuInfo);
+        modelMap.put("skuNum",quantity);
+        return "success";
     }
 
     private boolean if_cart_exist(List<OmsCartItem> omsCartItems, OmsCartItem omsCartItem) {

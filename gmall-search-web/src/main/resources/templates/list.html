@@ -23,10 +23,12 @@
  
         </b>
         <ul>
-            <li>
-                <a href="#" class="li_2">你好，请登录</a>
+            <li th:if="${nickname==null}">
+                <a href="../登录页面\index.html" class="li_2">你好，请登录</a>
             </li>
-        
+            <li th:if="${nickname!=null}">
+                <a href="#" style="color: red;" th:text="${nickname}"></a>
+            </li>
         </ul>
     </div>
 </div>

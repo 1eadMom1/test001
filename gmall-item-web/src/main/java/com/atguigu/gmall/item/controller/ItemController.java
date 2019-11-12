@@ -2,6 +2,7 @@ package com.atguigu.gmall.item.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.atguigu.gmall.annotations.LoginRequired;
 import com.atguigu.gmall.bean.PmsProductSaleAttr;
 import com.atguigu.gmall.bean.PmsSkuInfo;
 import com.atguigu.gmall.bean.PmsSkuSaleAttrValue;
@@ -27,11 +28,13 @@ public class ItemController {
     SpuService spuService;
 
     @RequestMapping("{skuId}.html")
+    @LoginRequired(loginSuccess = false)
     public String item(@PathVariable String skuId, ModelMap map, HttpServletRequest request){
         String remoteAddr = request.getRemoteAddr();
         PmsSkuInfo pmsSkuInfo = skuService.getSkuById(skuId,remoteAddr);
         //sku对象
         map.put("skuInfo",pmsSkuInfo);
+        
         //销售属性列表
         List<PmsProductSaleAttr> pmsProductSaleAttrs = spuService.spuSaleAttrListCheckByShu(pmsSkuInfo.getProductId(),pmsSkuInfo.getId());
         map.put("spuSaleAttrListCheckBySku",pmsProductSaleAttrs);
@@ -50,6 +53,8 @@ public class ItemController {
         }
         String skuSaleAttrHashJsonStr = JSON.toJSONString(skuSaleAttrHash);
         map.put("skuSaleAttrHashJsonStr",skuSaleAttrHashJsonStr);
+
+        //获取库存数量
         return "item";//注释
     }
 
@@ -59,6 +64,7 @@ public class ItemController {
 
 
     @RequestMapping("index")
+    @LoginRequired(loginSuccess = false)
     public String toIndex(){
         return "index";
     }

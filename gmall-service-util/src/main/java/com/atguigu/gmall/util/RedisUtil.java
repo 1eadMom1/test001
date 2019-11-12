@@ -1,19 +1,25 @@
 package com.atguigu.gmall.util;
 
-import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-@Component
 public class RedisUtil {
 
-    private static Jedis jedis;
-    private static final String HOST = "192.168.243.130";
-    private static final int PORT = 6371;
+    private JedisPool jedisPool;
 
-    public Jedis getJedis() {
-        Jedis jedis = new Jedis(HOST,PORT);
+    public void initPool(String host,int port ,int database){
+        JedisPoolConfig poolConfig = new JedisPoolConfig();
+        poolConfig.setMaxTotal(200);
+        poolConfig.setMaxIdle(30);
+        poolConfig.setBlockWhenExhausted(true);
+        poolConfig.setMaxWaitMillis(10*1000);
+        poolConfig.setTestOnBorrow(true);
+        jedisPool=new JedisPool(poolConfig,host,port,20*1000);
+    }
+
+    public Jedis getJedis(){
+        Jedis jedis = jedisPool.getResource();
         return jedis;
     }
 

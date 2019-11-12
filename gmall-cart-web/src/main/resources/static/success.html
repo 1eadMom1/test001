@@ -25,7 +25,7 @@
 
         <ul class="hd_wrap_right">
         <li class="forel">
-        <a href="/javascript:;" class="link_login">你好,请登录</a>&nbsp;
+        <a href="/javascript:;" class="link_login" th:text="${nickname!=null&&nickname!=''?nickname:'你好,请登录'}"></a>&nbsp;
     <a href="/javascript:;" class="link_regist">免费注册</a>
         </li>
         <li class="spacer"></li>
@@ -87,8 +87,8 @@
         </div>
         <div class="clr"></div>
         <div class="bg_shop">
-        <a class="btn-tobback" th:href="'http://item.gmall.com:8084/'+${skuInfo?.id}+'.html'">查看商品详情</a>
-        <a class="btn-addtocart"  href="http://cart.gmall.com:8084/cartList" id="GotoShoppingCart"><b></b>去购物车结算</a>
+        <a class="btn-tobback" th:href="'http://item.gmall.com/'+${skuInfo?.id}+'.html'">查看商品详情</a>
+        <a class="btn-addtocart"  href="http://cart.gmall.com/cartList" id="GotoShoppingCart"><b></b>去购物车结算</a>
    </div>
     </div>
     </div>

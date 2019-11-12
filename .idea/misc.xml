@@ -7,7 +7,6 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/fastdfs-client-java/pom.xml" />
-        <option value="$PROJECT_DIR$/gamall-user/pom.xml" />
         <option value="$PROJECT_DIR$/gmall-api/pom.xml" />
         <option value="$PROJECT_DIR$/gmall-web-util/pom.xml" />
         <option value="$PROJECT_DIR$/gmall-user-web/pom.xml" />
@@ -26,6 +25,8 @@
         <option value="$PROJECT_DIR$/gmall-order-web/pom.xml" />
         <option value="$PROJECT_DIR$/gmall-order-service/pom.xml" />
         <option value="$PROJECT_DIR$/gmall-payment/pom.xml" />
+        <option value="$PROJECT_DIR$/gware-manage/pom.xml" />
+        <option value="$PROJECT_DIR$/gmall-seckill/pom.xml" />
       </list>
     </option>
   </component>

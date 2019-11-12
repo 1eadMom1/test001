@@ -56,7 +56,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             String ip = request.getHeader("x-forwarded-for");// 通过nginx转发的客户端ip
             if(StringUtils.isBlank(ip)){
                 ip = request.getRemoteAddr();// 从request中获取ip
-                if(StringUtils.isBlank(ip)){
+                if(!checkIP(ip)){
                     ip = "127.0.0.1";
                 }
             }
@@ -68,14 +68,14 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
         }
 
-        if (loginSuccess) {
+          if (loginSuccess) {
             // 必须登录成功才能使用
             if (!success.equals("success")) {
-                //重定向会passport登录
-                StringBuffer requestURL = request.getRequestURL();
-                response.sendRedirect("http://passport.gmall.com:8085/index?ReturnUrl="+requestURL);
-                return false;
-            }
+                  //重定向会passport登录
+                  StringBuffer requestURL = request.getRequestURL();
+                  response.sendRedirect("http://passport.gmall.com:8085/index?ReturnUrl="+requestURL);
+                  return false;
+              }
 
             // 需要将token携带的用户信息写入
             request.setAttribute("memberId", successMap.get("memberId"));
@@ -99,8 +99,14 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
             }
         }
+        return true;
+    }
 
-
+    private static boolean checkIP(String ip) {
+        if (ip == null || ip.length() == 0 || "unkown".equalsIgnoreCase(ip)
+                || ip.split(".").length != 4) {
+            return false;
+        }
         return true;
     }
 }

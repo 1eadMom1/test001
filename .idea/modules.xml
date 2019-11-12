@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/fastdfs-client-java/fastdfs-client-java.iml" filepath="$PROJECT_DIR$/fastdfs-client-java/fastdfs-client-java.iml" />
-      <module fileurl="file://$PROJECT_DIR$/gamall-user/gamall-user.iml" filepath="$PROJECT_DIR$/gamall-user/gamall-user.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall-api/gmall-api.iml" filepath="$PROJECT_DIR$/gmall-api/gmall-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall-cart-service/gmall-cart-service.iml" filepath="$PROJECT_DIR$/gmall-cart-service/gmall-cart-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall-cart-web/gmall-cart-web.iml" filepath="$PROJECT_DIR$/gmall-cart-web/gmall-cart-web.iml" />
@@ -18,10 +17,12 @@
       <module fileurl="file://$PROJECT_DIR$/gmall-payment/gmall-payment.iml" filepath="$PROJECT_DIR$/gmall-payment/gmall-payment.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall-search-service/gmall-search-service.iml" filepath="$PROJECT_DIR$/gmall-search-service/gmall-search-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall-search-web/gmall-search-web.iml" filepath="$PROJECT_DIR$/gmall-search-web/gmall-search-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gmall-seckill/gmall-seckill.iml" filepath="$PROJECT_DIR$/gmall-seckill/gmall-seckill.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall-service-util/gmall-service-util.iml" filepath="$PROJECT_DIR$/gmall-service-util/gmall-service-util.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall-user-service/gmall-user-service.iml" filepath="$PROJECT_DIR$/gmall-user-service/gmall-user-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall-user-web/gmall-user-web.iml" filepath="$PROJECT_DIR$/gmall-user-web/gmall-user-web.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall-web-util/gmall-web-util.iml" filepath="$PROJECT_DIR$/gmall-web-util/gmall-web-util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gware-manage/gware-manage.iml" filepath="$PROJECT_DIR$/gware-manage/gware-manage.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/test001.iml" filepath="$PROJECT_DIR$/.idea/test001.iml" />
     </modules>
   </component>

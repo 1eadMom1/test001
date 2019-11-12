@@ -23,7 +23,10 @@ spring:
     host: 192.168.243.130
     port: 6371
     database: 0
-
+  activemq:
+    broker-url: tcp://localhost:61616
+    pool:
+      enabled: true
 logging:
   level:
     root: info

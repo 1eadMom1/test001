@@ -7,7 +7,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="fastdfs-client-java" />
-        <module name="gamall-user" />
         <module name="gmall-api" />
         <module name="gmall-cart-service" />
         <module name="gmall-cart-web" />
@@ -21,10 +20,12 @@
         <module name="gmall-payment" />
         <module name="gmall-search-service" />
         <module name="gmall-search-web" />
+        <module name="gmall-seckill" />
         <module name="gmall-service-util" />
         <module name="gmall-user-service" />
         <module name="gmall-user-web" />
         <module name="gmall-web-util" />
+        <module name="gware-manage" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -45,10 +46,12 @@
       <module name="gmall-payment" target="1.8" />
       <module name="gmall-search-service" target="1.8" />
       <module name="gmall-search-web" target="1.8" />
+      <module name="gmall-seckill" target="1.8" />
       <module name="gmall-service-util" target="1.8" />
       <module name="gmall-user-service" target="1.8" />
       <module name="gmall-user-web" target="1.8" />
       <module name="gmall-web-util" target="1.8" />
+      <module name="gware-manage" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
